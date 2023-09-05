@@ -1,0 +1,29 @@
+{
+  "name": "Doremitutor Project in doremitutor.com",
+  "short_name": "Doremitutor in doremitutor.com",
+  "description": "First Doremitutor App in doremitutor.com",
+  "categories": "Education",
+  "id": "https://doremitutor.com/appScratchPad/",
+  "start_url": "https://doremitutor.com/appScratchPad/",
+  "scope": "/appScratchPad/",
+  "display": "standalone",
+  "theme_color": "#0f0",
+  "background_color": "#f00",
+  "icons": [
+    {
+      "src": "MiniLogo150x150.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    },
+    {
+      "src": "MiniLogo360x360.png",
+      "sizes": "360x360",
+      "type": "image/png"
+    },
+    {
+      "src": "MiniLogo512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
