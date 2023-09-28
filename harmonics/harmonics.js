@@ -262,7 +262,8 @@ function oscillateString(){
 	}
 	//go();
 	animate.callback=go;
-	animate();
+	//setTimeout(animate, 500);
+	//animate();
 }
 function showCompare(){
 	ctx.lineWidth=4;

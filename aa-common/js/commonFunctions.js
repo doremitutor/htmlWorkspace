@@ -28,8 +28,18 @@ function animate(){
         window.webkitRequestAnimationFrame ||
         window.msRequestAnimationFrame     ||
         window.oRequestAnimationFrame)(animate);
-    animate.callback();
+   // setTimeout(animate.callback, 500);
+   animate.callback();
 }
+function animate_Slow(delay){
+   raf=(requestAnimationFrame ||
+		window.mozRequestAnimationFrame    ||
+        window.webkitRequestAnimationFrame ||
+        window.msRequestAnimationFrame     ||
+        window.oRequestAnimationFrame)(animate_Slow);
+    setTimeout(animate_Slow.callback(), 100);
+}
+
 animate.callback;
 function resume(){
 	if(raf!=undefined||animate.callback==undefined){
