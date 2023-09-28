@@ -1,4 +1,4 @@
-var lengthUnit;
+var lengthUnit; 
 var y0;
 var y1;
 var y2;
@@ -20,7 +20,7 @@ window.onload=setUp;
 function setUp(){
 	setCtx();
 	// abscisae and ordinates
-	lengthUnit=canvas.width/32;
+	lengthUnit=canvas.width/32; //1280/32=40
 	textX=Math.floor(lengthUnit);
 	stringX=Math.floor(7*lengthUnit);
 	stringW=Math.floor(18*lengthUnit);
@@ -44,18 +44,19 @@ function showAll(){
 	writeText();
 	showHarmonics();
 	oscillateString();
+	//showCompare();
 }
 function writeText(){	
 	var a='arm'+String.fromCharCode(0x00f3)+'nico';
 	ctx.textAlign='center';
 	ctx.textBaseline='middle';
 	ctx.font=Math.floor(lengthUnit*6/7)+'px sans-serif';
-	ctx.fillText('Ejemplo de composici'+String.fromCharCode(0x00f3)+'n de frecuencias en sonidos complejos', canvas.width/2, lengthUnit*4/5);//An'+String.fromCharCode(0x00e1)+'lisis de '+a+'
+	ctx.fillText('Ejemplo de composición de frecuencias en sonidos complejos', canvas.width/2, lengthUnit*4/5);
 	ctx.font=Math.floor(lengthUnit*5/7)+'px sans-serif';
-	//ctx.fillText('(Tambi'+String.fromCharCode(0x00e9)+'n llamados sobretonos a partir del segundo)', canvas.width/2, lengthUnit*5/3);
+	//ctx.fillText('(También llamados sobretonos a partir del segundo)', canvas.width/2, lengthUnit*5/3);
 	ctx.textAlign='center';
 	ctx.fillText('Frecuencia', lengthUnit*3, lengthUnit*9/5);
-	ctx.fillText('Cuerda vibrante (nodos de oscilaci'+String.fromCharCode(0x00f3)+'n en rojo)', lengthUnit*16, lengthUnit*9/5);
+	ctx.fillText('Cuerda vibrante (nodos de oscilación en rojo)', lengthUnit*16, lengthUnit*9/5);
 	ctx.fillText('Senoide', lengthUnit*29, lengthUnit*9/5);
 	ctx.font=Math.floor(lengthUnit*4/7)+'px sans-serif';
 	ctx.textAlign='left';
@@ -69,11 +70,11 @@ function writeText(){
 	ctx.fillText('(frecuencia triple)', textX, y3+textYOffset*2)
 	ctx.fillText('4o. '+a+' o', textX, y4-textYOffset*2);
 	ctx.fillText('3er. sobretono', textX, y4);
-	ctx.fillText('(frecuencia cu'+String.fromCharCode(0x00e1)+'druple)', textX, y4+textYOffset*2)
+	ctx.fillText('(frecuencia cuádruple)', textX, y4+textYOffset*2)
 	ctx.fillText('5o. '+a+' o', textX, y5-textYOffset*2);
 	ctx.fillText('4o. sobretono', textX, y5);
-	ctx.fillText('(frecuencia qu'+String.fromCharCode(0x00ed)+'ntuple)', textX, y5+textYOffset*2)
-	ctx.fillText('Oscilaci'+String.fromCharCode(0x00f3)+'n compleja', textX, y0-textYOffset);
+	ctx.fillText('(frecuencia quíntuple)', textX, y5+textYOffset*2)
+	ctx.fillText('Oscilación compleja', textX, y0-textYOffset);
 	ctx.fillText('resultante', textX, y0+textYOffset)
 }
 function showHarmonics(){
