@@ -1,25 +1,29 @@
-var lengthUnit; 
-var y0;
-var y1;
-var y2;
-var y3;
-var y4;
-var y5;
-var textYOffset;
-var freq1=1;
-var amplitude1=30;
-var freq2=2;
-var amplitude2=25;
-var freq3=3;
-var amplitude3=15;
-var freq4=4;
-var amplitude4=10;
-var freq5=5;
-var amplitude5=5;
+let lengthUnit; 
+let textX;
+let stringX;
+let stringW;
+let sinWaveX;
+let sinWaveW;	
+let y0;
+let y1;
+let y2;
+let y3;
+let y4;
+let y5;
+let textYOffset;
+let freq1=1;
+let amplitude1=30;
+let freq2=2;
+let amplitude2=25;
+let freq3=3;
+let amplitude3=15;
+let freq4=4;
+let amplitude4=10;
+let freq5=5;
+let amplitude5=5;
 window.onload=setUp;
 function setUp(){
-	setCtx();
-	// abscisae and ordinates
+	setUpCommonalities();
 	lengthUnit=canvas.width/32; //1280/32=40
 	textX=Math.floor(lengthUnit);
 	stringX=Math.floor(7*lengthUnit);
@@ -35,10 +39,6 @@ function setUp(){
 	y0=Math.floor(16*lengthUnit);
 	textYOffset=lengthUnit*2/7;
 	showAll();
-	// writeText();
-	// showHarmonics();
-	// oscillateString();
-	// showCompare();	
 }
 function showAll(){
 	writeText();
@@ -47,7 +47,7 @@ function showAll(){
 	//showCompare();
 }
 function writeText(){	
-	var a='arm'+String.fromCharCode(0x00f3)+'nico';
+	let a='armónico';
 	ctx.textAlign='center';
 	ctx.textBaseline='middle';
 	ctx.font=Math.floor(lengthUnit*6/7)+'px sans-serif';
@@ -81,37 +81,37 @@ function showHarmonics(){
 	ctx.lineWidth=2;
 	ctx.beginPath();
 	ctx.moveTo(sinWaveX, y1);
-	for(var x=1; x<=sinWaveW; x++){
+	for(let x=1; x<=sinWaveW; x++){
 		ctx.lineTo(sinWaveX+x, y1-amplitude1*Math.sin(2*Math.PI*x/sinWaveW*freq1));
 	}
 	ctx.stroke();
 	ctx.beginPath();
 	ctx.moveTo(sinWaveX, y2);
-	for(var x=1; x<=sinWaveW; x++){
+	for(let x=1; x<=sinWaveW; x++){
 		ctx.lineTo(sinWaveX+x, y2-amplitude2*Math.sin(2*Math.PI*x/sinWaveW*freq2));
 	}
 	ctx.stroke();
 	ctx.beginPath();
 	ctx.moveTo(sinWaveX, y3);
-	for(var x=1; x<=sinWaveW; x++){
+	for(let x=1; x<=sinWaveW; x++){
 		ctx.lineTo(sinWaveX+x, y3-amplitude3*Math.sin(2*Math.PI*x/sinWaveW*freq3));
 	}
 	ctx.stroke();
 	ctx.beginPath();
 	ctx.moveTo(sinWaveX, y4);
-	for(var x=1; x<=sinWaveW; x++){
+	for(let x=1; x<=sinWaveW; x++){
 		ctx.lineTo(sinWaveX+x, y4-amplitude4*Math.sin(2*Math.PI*x/sinWaveW*freq4));
 	}
 	ctx.stroke();
 	ctx.beginPath();
 	ctx.moveTo(sinWaveX, y5);
-	for(var x=1; x<=sinWaveW; x++){
+	for(let x=1; x<=sinWaveW; x++){
 		ctx.lineTo(sinWaveX+x, y5-amplitude5*Math.sin(2*Math.PI*x/sinWaveW*freq5));
 	}
 	ctx.stroke();	
 	ctx.beginPath();
 	ctx.moveTo(sinWaveX, y0);
-	for(var x=1; x<=sinWaveW; x++){
+	for(let x=1; x<=sinWaveW; x++){
 		ctx.lineTo(sinWaveX+x, y0-(amplitude1*Math.sin(2*Math.PI*x/sinWaveW*1)
 								+amplitude2*Math.sin(2*Math.PI*x/sinWaveW*2)
 								+amplitude3*Math.sin(2*Math.PI*x/sinWaveW*3)
@@ -120,41 +120,42 @@ function showHarmonics(){
 								)/2);
 	}
 	ctx.stroke();
-}
+};
+	
 function oscillateString(){
-	var maxY1=30;
-	var maxY2=15;
-	var maxY3=10;
-	var maxY4=7.5;
-	var maxY5=6;
-	var angleY1=0;
-	var angleY2=0;	
-	var angleY3=0;	
-	var angleY4=0;	
-	var angleY5=0;	
-	var step1=2*Math.PI/120;
-	var step2=2*Math.PI/60;
-	var step3=2*Math.PI/40;
-	var step4=2*Math.PI/30;
-	var step5=2*Math.PI/24;
-	var amplitude1;
-	var amplitude2;
-	var amplitude3;
-	var amplitude4;
-	var amplitude5;
-	var drawingAreaX=stringX-3;
-	var drawingAreaY=y1-maxY1-2;
-	var drawingAreaWidth=stringW+6;
-	var drawingAreaHeight=y0-lengthUnit;
+	let maxY1=30;
+	let maxY2=15;
+	let maxY3=10;
+	let maxY4=7.5;
+	let maxY5=6;
+	let angleY1=0;
+	let angleY2=0;	
+	let angleY3=0;	
+	let angleY4=0;	
+	let angleY5=0;	
+	let step1=2*Math.PI/120;
+	let step2=2*Math.PI/60;
+	let step3=2*Math.PI/40;
+	let step4=2*Math.PI/30;
+	let step5=2*Math.PI/24;
+	let drawingAreaX=stringX-3;
+	let drawingAreaY=y1-maxY1-2;
+	let drawingAreaWidth=stringW+6;
+	let drawingAreaHeight=y0-lengthUnit;
 	ctx.lineWidth=4;
 	ctx.lineCap='round';
+	let amplitude1;
+	let amplitude2;
+	let amplitude3;
+	let amplitude4;
+	let amplitude5;
 	function go(){
 		ctx.clearRect(drawingAreaX, drawingAreaY, drawingAreaWidth, drawingAreaHeight);
 		// 1hz
 		ctx.beginPath();
 		ctx.moveTo(stringX, y1);
 		amplitude1=maxY1*Math.sin(angleY1);
-		for(var x=1; x<=stringW; x++){
+		for(let x=1; x<=stringW; x++){
 			ctx.lineTo(stringX+x, y1-amplitude1*(Math.sin(Math.PI*x/stringW*freq1)));
 		}
 		ctx.stroke();
@@ -162,7 +163,7 @@ function oscillateString(){
 		ctx.beginPath();
 		ctx.moveTo(stringX, y2);
 		amplitude2=maxY2*Math.sin(angleY2);
-		for(var x=1; x<=stringW; x++){
+		for(let x=1; x<=stringW; x++){
 			ctx.lineTo(stringX+x, y2-amplitude2*Math.sin(Math.PI*x/stringW*freq2));
 		}
 		ctx.stroke();
@@ -170,7 +171,7 @@ function oscillateString(){
 		ctx.beginPath();
 		ctx.moveTo(stringX, y3);
 		amplitude3=maxY3*Math.sin(angleY3);
-		for(var x=1; x<=stringW; x++){
+		for(let x=1; x<=stringW; x++){
 			ctx.lineTo(stringX+x, y3-amplitude3*Math.sin(Math.PI*x/stringW*freq3));
 		}
 		ctx.stroke();
@@ -178,7 +179,7 @@ function oscillateString(){
 		ctx.beginPath();
 		ctx.moveTo(stringX, y4);
 		amplitude4=maxY4*Math.sin(angleY4);
-		for(var x=1; x<=stringW; x++){
+		for(let x=1; x<=stringW; x++){
 			ctx.lineTo(stringX+x, y4-amplitude4*Math.sin(Math.PI*x/stringW*freq4));
 		}
 		ctx.stroke();
@@ -186,14 +187,14 @@ function oscillateString(){
 		ctx.beginPath();
 		ctx.moveTo(stringX, y5);
 		amplitude5=maxY5*Math.sin(angleY5);
-		for(var x=1; x<=stringW; x++){
+		for(let x=1; x<=stringW; x++){
 			ctx.lineTo(stringX+x, y5-amplitude5*Math.sin(Math.PI*x/stringW*freq5));
 		}
 		ctx.stroke();
 		// sum of all
 		ctx.beginPath();
 		ctx.moveTo(stringX, y0);
-		for(var x=1; x<=stringW; x++){
+		for(let x=1; x<=stringW; x++){
 			ctx.lineTo(stringX+x, y0 -amplitude1*Math.sin(Math.PI*x/stringW*freq1)
 										-amplitude2*Math.sin(Math.PI*x/stringW*freq2)
 										-amplitude4*Math.sin(Math.PI*x/stringW*freq3)
@@ -203,41 +204,41 @@ function oscillateString(){
 		}
 		ctx.stroke();
 		// draw nodes	
-		var tempStyle=ctx.strokeStyle;
+		let tempStyle=ctx.strokeStyle;
 		ctx.lineWidth=6;
 		ctx.strokeStyle='red';
-		var nodeOffset=8;
-		for(var i=0; i<=freq1; i++){
+		let nodeOffset=8;
+		for(let i=0; i<=freq1; i++){
 			ctx.beginPath();
 			ctx.moveTo(stringX+i/freq1*stringW, y1-nodeOffset);
 			ctx.lineTo(stringX+i/freq1*stringW, y1+nodeOffset);
 			ctx.stroke();
 		}
-		for(var i=0; i<=freq2; i++){
+		for(let i=0; i<=freq2; i++){
 			ctx.beginPath();
 			ctx.moveTo(stringX+i/freq2*stringW, y2-nodeOffset);
 			ctx.lineTo(stringX+i/freq2*stringW, y2+nodeOffset);
 			ctx.stroke();
 		}
-		for(var i=0; i<=freq3; i++){
+		for(let i=0; i<=freq3; i++){
 			ctx.beginPath();
 			ctx.moveTo(stringX+i/freq3*stringW, y3-nodeOffset);
 			ctx.lineTo(stringX+i/freq3*stringW, y3+nodeOffset);
 			ctx.stroke();
 		}
-		for(var i=0; i<=freq4; i++){
+		for(let i=0; i<=freq4; i++){
 			ctx.beginPath();
 			ctx.moveTo(stringX+i/freq4*stringW, y4-nodeOffset);
 			ctx.lineTo(stringX+i/freq4*stringW, y4+nodeOffset);
 			ctx.stroke();
 		}
-		for(var i=0; i<=freq5; i++){
+		for(let i=0; i<=freq5; i++){
 			ctx.beginPath();
 			ctx.moveTo(stringX+i/freq5*stringW, y5-nodeOffset);
 			ctx.lineTo(stringX+i/freq5*stringW, y5+nodeOffset);
 			ctx.stroke();
 		}
-		for(var i=0; i<=freq1; i++){
+		for(let i=0; i<=freq1; i++){
 			ctx.beginPath();
 			ctx.moveTo(stringX+i/freq1*stringW, y0-nodeOffset);
 			ctx.lineTo(stringX+i/freq1*stringW, y0+nodeOffset);
@@ -260,12 +261,11 @@ function oscillateString(){
 			angleY5+=step5;
 		}
 	}
-	//go();
-	animate.callback=go;
-	//setTimeout(animate, 500);
-	//animate();
+	startAnimation.callback=go;
+	startAnimation.framesPerSec=10;
+	startAnimation();
 }
-function showCompare(){
+function showCompare(){	
 	ctx.lineWidth=4;
 	ctx.strokeStyle='black';
 	sinWaveX=Math.floor(canvas.width/20);
@@ -273,14 +273,14 @@ function showCompare(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.beginPath();
 	ctx.moveTo(sinWaveX, y1);
-	var freq=4;
-	for(var x=1; x<=sinWaveW; x++){
+	let freq=4;
+	for(let x=1; x<=sinWaveW; x++){
 		ctx.lineTo(sinWaveX+x, y1-amplitude1*(Math.sin(2*Math.PI*freq*x/sinWaveW)));
 	}
 	ctx.stroke();
-	var tempStyle=ctx.strokeStyle;
+	let tempStyle=ctx.strokeStyle;
 	ctx.strokeStyle='red';
-	for(var i=0; i<=freq; i++){
+	for(let i=0; i<=freq; i++){
 		ctx.beginPath();
 		ctx.moveTo(sinWaveX+i/freq*sinWaveW, y1-20);
 		ctx.lineTo(sinWaveX+i/freq*sinWaveW, y1+20);
@@ -290,12 +290,12 @@ function showCompare(){
 	ctx.beginPath();
 	ctx.moveTo(sinWaveX, y3);
 	freq=5;
-	for(var x=1; x<=sinWaveW; x++){
+	for(let x=1; x<=sinWaveW; x++){
 		ctx.lineTo(sinWaveX+x, y3-amplitude1*(Math.sin(2*Math.PI*freq*x/sinWaveW)));
 	}
 	ctx.stroke();
 	ctx.strokeStyle='red';
-	for(var i=0; i<=freq; i++){
+	for(let i=0; i<=freq; i++){
 		ctx.beginPath();
 		ctx.moveTo(sinWaveX+i/freq*sinWaveW, y3-20);
 		ctx.lineTo(sinWaveX+i/freq*sinWaveW, y3+20);
