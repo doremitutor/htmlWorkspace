@@ -261,9 +261,9 @@ function oscillateString(){
 			angleY5+=step5;
 		}
 	}
-	startAnimation.callback=go;
-	startAnimation.framesPerSec=10;
-	startAnimation();
+	animate.callback=go;
+	animate.framesPerSec=10;
+	animate();
 }
 function showCompare(){	
 	ctx.lineWidth=4;

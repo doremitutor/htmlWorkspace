@@ -1,4 +1,4 @@
-function startAnimation(){
+function startSequence(){
 	if(timer||raf){		
 		return;
 	}
@@ -126,7 +126,7 @@ function windNotes(){
 		stepsPerPhase=100, numPhases=3, running=true;
 	linearAdvance=lineSegment/stepsPerPhase;
 	angularAdvance=circle7th/stepsPerPhase;
-	let moveNotes=function(){
+	function moveNotes(){
 		if(!running){
 			window.cancelAnimationFrame(raf);
 			keepOn(makeDiatonic, 1000);
@@ -178,26 +178,27 @@ function makeDiatonic(){
 	if(timer){
 		window.clearTimeout(timer);
 	}
-	let running=true, angularAdvance=new Array(7), step=0, maxSteps=diatonizingSteps, angle= new Array(7);
-	angularAdvance[1]=(anglesBy12ths[2]-anglesBy7ths[1])/maxSteps;
-	angularAdvance[2]=(anglesBy12ths[4]-anglesBy7ths[2])/maxSteps;
-	angularAdvance[3]=(anglesBy12ths[5]-anglesBy7ths[3])/maxSteps;
-	angularAdvance[4]=(anglesBy12ths[7]-anglesBy7ths[4])/maxSteps;
-	angularAdvance[5]=(anglesBy12ths[9]-anglesBy7ths[5])/maxSteps;
-	angularAdvance[6]=(anglesBy12ths[11]-anglesBy7ths[6])/maxSteps;
+	let running=true, angularAdvance=new Array(7), step=0, diatonizingSteps=200, angle= new Array(7);
+	angularAdvance[1]=(anglesBy12ths[2]-anglesBy7ths[1])/diatonizingSteps;
+	angularAdvance[2]=(anglesBy12ths[4]-anglesBy7ths[2])/diatonizingSteps;
+	angularAdvance[3]=(anglesBy12ths[5]-anglesBy7ths[3])/diatonizingSteps;
+	angularAdvance[4]=(anglesBy12ths[7]-anglesBy7ths[4])/diatonizingSteps;
+	angularAdvance[5]=(anglesBy12ths[9]-anglesBy7ths[5])/diatonizingSteps;
+	angularAdvance[6]=(anglesBy12ths[11]-anglesBy7ths[6])/diatonizingSteps;
 	let rotate=function(){
 		if(!running){
 			window.cancelAnimationFrame(raf);
-			keepOn(showAlteredNotes, 1000);			
+			//keepOn(showAlteredNotes, 1000);			
 		}
-		for(let i=1; i<7;i++){
+		for(let i=1; i<7; i++){
 			angle[i]=anglesBy7ths[i]+angularAdvance[i]*step;
 		}
 		for(let i=1; i<7; i++){
 			naturalNotes[i].move(new Point(circle.x+circle.radius*Math.cos(angle[i]),
 								 circle.y+circle.radius*Math.sin(angle[i])));
 		}
-		if(++step>=maxSteps){running=false;}
+		if(++step>=diatonizingSteps){running=false;}
+		if(!running){$cl(running);}
 		showCount(step);
 	};
 	animate.callback=rotate;

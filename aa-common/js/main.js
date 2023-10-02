@@ -43,15 +43,15 @@ function getAC(){
 	}
 	return ac=new AC({latencyHint: "interactive", sampleRate: 44100});
 };
-function startAnimation(){
-	if(startAnimation.framesPerSec){
-		const delay=1000/startAnimation.framesPerSec;
-		RAF(startAnimation.callback);
+function animate(){
+	if(animate.framesPerSec){
+		const delay=1000/animate.framesPerSec;
+		raf=RAF(animate.callback);
 		setInterval(()=>{
-			RAF(startAnimation.callback);
+			RAF(animate.callback);
 		}, delay);
 	}else{
-		RAF(startAnimation);
-		startAnimation.callback();
+		raf=RAF(animate);
+		animate.callback();
 	}
 }

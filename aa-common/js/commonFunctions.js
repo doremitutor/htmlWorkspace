@@ -15,7 +15,7 @@ function stopOrClear(){
 		console.log('Stopped!');
 	}else{
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		animate.callback=undefined;
+		startSequence.callback=undefined;
 		window.clearTimeout(timer);
 		console.log('Cleared!');
 	}

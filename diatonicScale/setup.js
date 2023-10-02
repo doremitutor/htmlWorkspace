@@ -1,6 +1,6 @@
 window.onload=setUp;
 function setUp(){
-	setCtx();
+	setUpCommonalities();
 	Note.RADIUS=canvas.height/20;
 	maskRadius=canvas.height/18;
 	fontSizeLarge=canvas.height/22;
@@ -11,8 +11,7 @@ function setUp(){
 	ctx.textBaseline='middle';
 	/* GRAPHICS */
 	circle={x:canvas.width/2, y:canvas.height/2, radius:canvas.height/4};
-	guide={y:circle.y-circle.radius, length:2*Math.PI*circle.radius};
-	guide.x=circle.x-guide.length/2;
+	guide={length:2*Math.PI*circle.radius, x:circle.x-Math.PI*circle.radius,  y:circle.y-circle.radius};
 	lineSegment=2*Math.PI*circle.radius/6;
 	for(let i=0; i<pointsInLine.length; i++){
 		pointsInLine[i]=new Point(guide.x+lineSegment*i, guide.y);
@@ -65,23 +64,8 @@ function setUp(){
 	pointsFlatSeries[4]=pointsChromatic[8];
 	pointsFlatSeries[5]=pointsChromatic[7];
 	pointsFlatSeries[6]=new Point(pointsChromatic[6].x-offset6X, pointsChromatic[6].y+offset6Y);
-	pointsFlatSeries[7]=new Point(pointsChromatic[6].x-offset7X, pointsChromatic[6].y+offset7Y)
-	/* pointsSharpSeries[0]=pointsChromatic[1];
-	pointsSharpSeries[1]=pointsChromatic[3];
-	pointsSharpSeries[2]=pointsChromatic[4];
-	pointsSharpSeries[3]=pointsChromatic[5];
-	pointsSharpSeries[4]=pointsChromatic[6];
-	pointsSharpSeries[5]=pointsChromatic[7];
-	pointsSharpSeries[6]=pointsChromatic[8];
-	pointsSharpSeries[7]=pointsChromatic[9];
-	pointsFlatSeries[0]=pointsChromatic[1];
-	pointsFlatSeries[1]=pointsChromatic[2];
-	pointsFlatSeries[2]=pointsChromatic[3];
-	pointsFlatSeries[3]=pointsChromatic[4];
-	pointsFlatSeries[4]=pointsChromatic[5];
-	pointsFlatSeries[5]=pointsChromatic[6];
-	pointsFlatSeries[6]=pointsChromatic[7];
-	pointsFlatSeries[7]=pointsChromatic[8]; */
+	pointsFlatSeries[7]=new Point(pointsChromatic[6].x-offset7X, pointsChromatic[6].y+offset7Y);
+	//comments block 1
 	for(let i=0; i<naturalNotes.length; i++){
 		naturalNotes[i]=new Note(noteNames[i], pointsDiatonic[i]);
 	}
@@ -101,7 +85,7 @@ function setUp(){
 		circleOfFifthsNotes[i]=new Note(circleOfFifthsNames[i], pointsChromatic[i]);
 	}
 	// listeners
-	document.getElementById('a0-start').addEventListener('click', startAnimation);
+	document.getElementById('a0-start').addEventListener('click', startSequence);
 	document.getElementById('a1-altered').addEventListener('click', showAlteredNotes);
 	document.getElementById('a2-alteredNames').addEventListener('click', showAlteredNames);
 	document.getElementById('a3-showDiatonics').addEventListener('click', showDiatonics);
@@ -112,6 +96,25 @@ function setUp(){
 	document.getElementById('a8-diatSectors').addEventListener('click', showDiatonicSectors.showTones);
 	document.getElementById('a9-rotate3').addEventListener('click', rotateLastNotes);
 	document.getElementById('aa-centerGuide').addEventListener('click', showOrHideCenteringMark);
+
+	/* comments block 1:
+	pointsSharpSeries[0]=pointsChromatic[1];
+	pointsSharpSeries[1]=pointsChromatic[3];
+	pointsSharpSeries[2]=pointsChromatic[4];
+	pointsSharpSeries[3]=pointsChromatic[5];
+	pointsSharpSeries[4]=pointsChromatic[6];
+	pointsSharpSeries[5]=pointsChromatic[7];
+	pointsSharpSeries[6]=pointsChromatic[8];
+	pointsSharpSeries[7]=pointsChromatic[9];
+	pointsFlatSeries[0]=pointsChromatic[1];
+	pointsFlatSeries[1]=pointsChromatic[2];
+	pointsFlatSeries[2]=pointsChromatic[3];
+	pointsFlatSeries[3]=pointsChromatic[4];
+	pointsFlatSeries[4]=pointsChromatic[5];
+	pointsFlatSeries[5]=pointsChromatic[6];
+	pointsFlatSeries[6]=pointsChromatic[7];
+	pointsFlatSeries[7]=pointsChromatic[8]; */
+
 	/* //document.getElementById('ab-currentTest').addEventListener('click', );
 	// document.getElementById('ac-sharpNames').addEventListener('click', showSharpNames);
 	// document.getElementById('adline').addEventListener('click', drawLine);
@@ -124,7 +127,7 @@ function setUp(){
 	// document.getElementById('b4').addEventListener('click', );
 	// document.getElementById('b5').addEventListener('click', );  */
 	
-	startAnimation();
+	//animate();
 	// showAlteredNotes();
 	// showChromatics();
 	// showDiatonics();
