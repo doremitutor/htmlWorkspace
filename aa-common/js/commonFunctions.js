@@ -1,21 +1,22 @@
 function resume(){
+	$cl(raf, animate.callback);
 	if(raf!=undefined||animate.callback==undefined){
-		console.log('Nothing running!');
+		alert('Nothing running!');
 		return;
 	}
-	raf=window.requestAnimationFrame(animate);
+	raf(animate);
 }
 function stopOrClear(){
+	$cl(raf, timer);
 	if(raf!=undefined){	
-		window.cancelAnimationFrame(raf);
+		cancelAnimationFrame(raf);
 		if(timer!=undefined){
-			//window.clearTimeout(timer);
+			window.clearTimeout(timer);
 		}		
 		raf=undefined;
 		console.log('Stopped!');
 	}else{
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		startSequence.callback=undefined;
 		window.clearTimeout(timer);
 		console.log('Cleared!');
 	}

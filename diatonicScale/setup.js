@@ -85,17 +85,18 @@ function setUp(){
 		circleOfFifthsNotes[i]=new Note(circleOfFifthsNames[i], pointsChromatic[i]);
 	}
 	// listeners
-	document.getElementById('a0-start').addEventListener('click', startSequence);
-	document.getElementById('a1-altered').addEventListener('click', showAlteredNotes);
-	document.getElementById('a2-alteredNames').addEventListener('click', showAlteredNames);
-	document.getElementById('a3-showDiatonics').addEventListener('click', showDiatonics);
+	document.getElementById('a0-showNotesInLine').addEventListener('click', showNotesInLine);
+	document.getElementById('a1-rotateLastThreeAndWindAll').addEventListener('click', rotateLastThreeAndWindThemAll);
+	document.getElementById('a2-makeThemDiatonic').addEventListener('click', makeThemDiatonic);
+	document.getElementById('a3-showIntermediate').addEventListener('click', showIntermediate);
 	document.getElementById('a4-showChromatics').addEventListener('click', showChromatics);
 	document.getElementById('a5-showAltered').addEventListener('click', showAltered);
 	document.getElementById('a6-lightningSpot').addEventListener('click', showLightningSpot);
 	document.getElementById('a7-diatMask').addEventListener('click', showDiatonicMask);
-	document.getElementById('a8-diatSectors').addEventListener('click', showDiatonicSectors.showTones);
-	document.getElementById('a9-rotate3').addEventListener('click', rotateLastNotes);
+	//document.getElementById('a8-diatSectors').addEventListener('click', showDiatonicSectors.showTones);
+	document.getElementById('a9-showDiatonic').addEventListener('click', showDiatonic);
 	document.getElementById('aa-centerGuide').addEventListener('click', showOrHideCenteringMark);
+	document.getElementById('b1-pause-clear').addEventListener('click', stopOrClear);
 
 	/* comments block 1:
 	pointsSharpSeries[0]=pointsChromatic[1];
