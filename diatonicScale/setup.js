@@ -95,9 +95,11 @@ function setUp(){
 	document.getElementById('a7-diatMask').addEventListener('click', showDiatonicMask);
 	//document.getElementById('a8-diatSectors').addEventListener('click', showDiatonicSectors.showTones);
 	document.getElementById('a9-showDiatonic').addEventListener('click', showDiatonic);
-	document.getElementById('aa-centerGuide').addEventListener('click', showOrHideCenteringMark);
+	document.getElementById('aa-showOrHideCenteringMark').addEventListener('click', showOrHideCenteringMark);
 	document.getElementById('b1-pause-clear').addEventListener('click', stopOrClear);
-
+	/* document.getElementById('ae-drawCircle').addEventListener('click', drawCircle);
+	document.getElementById('ad-line').addEventListener('click', drawLine);
+ */
 	/* comments block 1:
 	pointsSharpSeries[0]=pointsChromatic[1];
 	pointsSharpSeries[1]=pointsChromatic[3];
@@ -118,8 +120,8 @@ function setUp(){
 
 	/* //document.getElementById('ab-currentTest').addEventListener('click', );
 	// document.getElementById('ac-sharpNames').addEventListener('click', showSharpNames);
-	// document.getElementById('adline').addEventListener('click', drawLine);
-	// document.getElementById('ae-circle').addEventListener('click', drawCircle);
+	// 
+	// 
 	// document.getElementById('af-alert').addEventListener('click', function(){alert('Available!!!');});
 	document.getElementById('b0-resume').addEventListener('click', resume);
 	document.getElementById('b1-pause').addEventListener('click', stopOrClear);

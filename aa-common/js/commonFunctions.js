@@ -7,18 +7,18 @@ function resume(){
 	raf(animate);
 }
 function stopOrClear(){
-	$cl(raf, timer);
+	//$cl(raf, timer);
 	if(raf!=undefined){	
 		cancelAnimationFrame(raf);
 		if(timer!=undefined){
 			window.clearTimeout(timer);
 		}		
 		raf=undefined;
-		console.log('Stopped!');
+		//console.log('Stopped!');
 	}else{
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		window.clearTimeout(timer);
-		console.log('Cleared!');
+		//console.log('Cleared!');
 	}
 }
 function keepOn(callBack, delay){

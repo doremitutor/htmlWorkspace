@@ -11,48 +11,59 @@ function showNotesInLine(){
 	//keepOn(rotateLastNotes, 100);
 }
 function rotateLastThreeAndWindThemAll(){
-	let steps=[140, 200, 260];
+	let steps=[70, 100, 130];//140, 200, 260
 	let origin=[pointsInLine[4], pointsInLine[5], pointsInLine[6]];
 	let ending=[pointsByAngle7ths[1], pointsByAngle7ths[2],pointsByAngle7ths[3]];
-	let chordAndRadius=[100, 300, 550], middlePoint=new Array(3), angleChord=new Array(3), bisectAngle=new Array(3),
-		 radiusSegment=new Array(3), rotCenter=new Array(3), angleOrigin=new Array(3),
-		 angleEnding=new Array(3), angleStep=new Array(3), running=[true, true, true], note, point, newX, newY;
+	let chord=new Array(3), middlePoint=new Array(3), chordAngle=new Array(3), bisectAngle=new Array(3),//[100, 300, 550]
+		 radiusSegment=new Array(3), rotCenter=new Array(3), originAngle=new Array(3),
+		 endingAngle=new Array(3), angleStep=new Array(3), running=[true, true, true], note, point, newX, newY;
+	$cl('origin', origin);
+	$cl('ending', ending);
+	for(let i=0; i<chord.length; i++){
+		chord[i]=Math.sqrt(Math.pow(ending[i].x-origin[i].x, 2)+Math.pow(ending[i].y-origin[i].y, 2));
+		$cl(`chord ${i}`, chord);
+	}
 	for(let i=0; i<middlePoint.length; i++){
 		middlePoint[i]=new Point((origin[i].x+ending[i].x)/2, (origin[i].y+ending[i].y)/2);
 	}
-	for(let i=0; i<chordAndRadius.length; i++){
-		chordAndRadius[i]=Math.sqrt(Math.pow(ending[i].x-origin[i].x, 2)+Math.pow(ending[i].y-origin[i].y, 2));
-	}
-	for(let i=0; i<angleChord.length; i++){
-		a=angleChord[i]=(Math.asin((origin[i].y-ending[i].y)/chordAndRadius[i]));
+	$cl('middlePoint', middlePoint);
+	for(let i=0; i<chordAngle.length; i++){
+		a=chordAngle[i]=(Math.asin((origin[i].y-ending[i].y)/chord[i]));
 		if(a<0){
-			angleChord[i]=2*Math.PI+angleChord[i];
+			chordAngle[i]=2*Math.PI+chordAngle[i];
 		}
+		$cl(`chordAngle ${i}`, chordAngle[i]*180/Math.PI);
 	}
 	for(let i=0; i<bisectAngle.length; i++){
-		bisectAngle[i]=angleChord[i]+Math.PI/2;
+		bisectAngle[i]=chordAngle[i]+Math.PI/2;
 		if(bisectAngle[i]>Math.PI*2){
 			bisectAngle[i]-=Math.PI*2;
 		}
+		$cl(`bisectAngle ${i}`, bisectAngle[i]*180/Math.PI);
 	}
 	for(let i=0; i<radiusSegment.length; i++){
-		radiusSegment[i]=Math.sqrt(Math.pow(chordAndRadius[i], 2)-Math.pow(chordAndRadius[i]/2, 2));
+		radiusSegment[i]=Math.sqrt(Math.pow(chord[i], 2)-Math.pow(chord[i]/2, 2));
+		$cl(`radiusSegment ${i}`, radiusSegment[i] );
 	}
 	for(let i=0; i<rotCenter.length; i++){
 		rotCenter[i]=new Point(middlePoint[i].x-radiusSegment[i]*Math.cos(bisectAngle[i]),
 							   middlePoint[i].y-radiusSegment[i]*Math.sin(bisectAngle[i]));
+		$cl(`rotCenter ${i}`, rotCenter[i]);
 	}
-	for(let i=0; i<angleOrigin.length;i++){
-		angleOrigin[i]=Math.atan((origin[i].y-rotCenter[i].y)/(origin[i].x-rotCenter[i].x));
+	for(let i=0; i<originAngle.length;i++){
+		originAngle[i]=Math.atan((origin[i].y-rotCenter[i].y)/(origin[i].x-rotCenter[i].x));
+		$cl(`originAngle ${i}`, originAngle[i]*180/Math.PI);
 	}
-	for(let i=0; i<angleEnding.length;i++){
-		angleEnding[i]=Math.atan((ending[i].y-rotCenter[i].y)/(ending[i].x-rotCenter[i].x));
-		if(angleEnding[i]<0){
-			angleEnding[i]=-angleEnding[i];
+	for(let i=0; i<endingAngle.length;i++){
+		endingAngle[i]=Math.atan((ending[i].y-rotCenter[i].y)/(ending[i].x-rotCenter[i].x));
+		if(endingAngle[i]<0){
+			endingAngle[i]=-endingAngle[i];
 		}
+		$cl('endingAngle', endingAngle[i]*180/Math.PI);
 	}
 	for(let i=0; i<angleStep.length; i++){
-		angleStep[i]=(angleEnding[i]-angleOrigin[i])/steps[i];
+		angleStep[i]=(endingAngle[i]-originAngle[i])/steps[i];
+		$cl('angleStep', angleStep[i]*180/Math.PI);
 	}
 	let notes=[4, 5, 6];
 	function moveNote0(){
@@ -61,14 +72,14 @@ function rotateLastThreeAndWindThemAll(){
 			running[round]=true;
 			return;
 		}
-		angle=angleOrigin[round]+angleStep[round];
-		if(angle>=angleEnding[round]){
-			angle=angleEnding[round];
+		angle=originAngle[round]+angleStep[round];
+		if(angle>=endingAngle[round]){
+			angle=endingAngle[round];
 			running[round]=false;
 		}
-		angleOrigin[round]=angle;
-		newX=rotCenter[round].x+chordAndRadius[round]*Math.cos(angle);
-		newY=rotCenter[round].y+chordAndRadius[round]*Math.sin(angle);
+		originAngle[round]=angle;
+		newX=rotCenter[round].x+chord[round]*Math.cos(angle);
+		newY=rotCenter[round].y+chord[round]*Math.sin(angle);
 		point=new Point(newX, newY);
 		note=naturalNotes[notes[round]];
 		note.move(point);
@@ -80,14 +91,14 @@ function rotateLastThreeAndWindThemAll(){
 			running[round]=true;
 			return;
 		}
-		angle=angleOrigin[round]+angleStep[round];
-		if(angle>=angleEnding[round]){
-			angle=angleEnding[round];
+		angle=originAngle[round]+angleStep[round];
+		if(angle>=endingAngle[round]){
+			angle=endingAngle[round];
 			running[round]=false;
 		}
-		angleOrigin[round]=angle;
-		newX=rotCenter[round].x+chordAndRadius[round]*Math.cos(angle);
-		newY=rotCenter[round].y+chordAndRadius[round]*Math.sin(angle);
+		originAngle[round]=angle;
+		newX=rotCenter[round].x+chord[round]*Math.cos(angle);
+		newY=rotCenter[round].y+chord[round]*Math.sin(angle);
 		point=new Point(newX, newY);
 		note=naturalNotes[notes[round]];
 		note.move(point);
@@ -101,14 +112,14 @@ function rotateLastThreeAndWindThemAll(){
 			windNotes();
 			return;
 		}
-		angle=angleOrigin[round]+angleStep[round];
-		if(angle>=angleEnding[round]){
-			angle=angleEnding[round];
+		angle=originAngle[round]+angleStep[round];
+		if(angle>=endingAngle[round]){
+			angle=endingAngle[round];
 			running[round]=false;
 		}
-		angleOrigin[round]=angle;
-		newX=rotCenter[round].x+chordAndRadius[round]*Math.cos(angle);
-		newY=rotCenter[round].y+chordAndRadius[round]*Math.sin(angle);
+		originAngle[round]=angle;
+		newX=rotCenter[round].x+chord[round]*Math.cos(angle);
+		newY=rotCenter[round].y+chord[round]*Math.sin(angle);
 		point=new Point(newX, newY);
 		note=naturalNotes[notes[round]];
 		note.move(point);
@@ -292,7 +303,7 @@ function showDiatonic(){
 		return;
 	}
 	showCount(++showDiatonic.phase);
-	keepOn(showDiatonics, 1000);
+	keepOn(showDiatonic, 1000);
 }
 showDiatonic.phase=0;
 function showChromatics(){ //also for Fifths
@@ -538,7 +549,7 @@ showDiatonicSectors.showSemiTones=function(){
 	animate.callback=show;
 	animate();
 }
-function drawLine(){
+/* function drawLine(){
 	console.log('? '+guide.x+' '+guide.y+' '+guide.length);
 	ctx.beginPath();
 	ctx.moveTo(guide.x, guide.y);
@@ -550,7 +561,7 @@ function drawCircle(){
 	ctx.beginPath();
 	ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI*2, true);
 	ctx.stroke();
-}
+} */
 function showOrHideCenteringMark(){
 	if(showOrHideCenteringMark.isVisible){
 		ctx.clearRect(0,0, canvas.width, canvas.height);

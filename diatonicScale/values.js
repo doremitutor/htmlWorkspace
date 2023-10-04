@@ -125,5 +125,6 @@ let scratchFifthsNames=[noteNames[0], noteNames[4], noteNames[1], noteNames[5],
 						 flatNames[3], flatNames[1],flatNames[4] ,noteNames[3]];
 let sharpSeriesNames=[["Do"], ["Sol"], ["Re"], ["La"], ["Mi"], ["Si"], ["Fa"+sharp], ["Do"+sharp]];
 let flatSeriesNames=[["Do"], ["Fa"], ["Si"+flat], ["Mi"+flat], ["La"+flat], ["Re"+flat], ["Sol"+flat], ["Do"+flat]];
+const STATUS={cleared:Symbol('cleared'), stopped:Symbol('stopped'), linedUp:Symbol('linedUp')};
 //let wrapStepsFactor=Math.floor(8);
 //let diatonizingSteps=200;
