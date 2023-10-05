@@ -8,7 +8,7 @@ function showNotesInLine(){
 	point=pointsInLine[i];
 	naturalNotes[i].showUp(point, true);
 	}
-	//keepOn(rotateLastNotes, 100);
+	//keepOn(rotateLastThreeAndWindThemAll, 1000);
 }
 function rotateLastThreeAndWindThemAll(){
 	let steps=[70, 100, 130];//140, 200, 260
@@ -17,59 +17,58 @@ function rotateLastThreeAndWindThemAll(){
 	let chord=new Array(3), middlePoint=new Array(3), chordAngle=new Array(3), bisectAngle=new Array(3),//[100, 300, 550]
 		 radiusSegment=new Array(3), rotCenter=new Array(3), originAngle=new Array(3),
 		 endingAngle=new Array(3), angleStep=new Array(3), running=[true, true, true], note, point, newX, newY;
-	$cl('origin', origin);
-	$cl('ending', ending);
+	//$cl('origin', origin);
+	//$cl('ending', ending);
 	for(let i=0; i<chord.length; i++){
 		chord[i]=Math.sqrt(Math.pow(ending[i].x-origin[i].x, 2)+Math.pow(ending[i].y-origin[i].y, 2));
-		$cl(`chord ${i}`, chord);
+		//$cl(`chord ${i}`, chord);
 	}
 	for(let i=0; i<middlePoint.length; i++){
 		middlePoint[i]=new Point((origin[i].x+ending[i].x)/2, (origin[i].y+ending[i].y)/2);
 	}
-	$cl('middlePoint', middlePoint);
+	//$cl('middlePoint', middlePoint);
 	for(let i=0; i<chordAngle.length; i++){
 		a=chordAngle[i]=(Math.asin((origin[i].y-ending[i].y)/chord[i]));
 		if(a<0){
 			chordAngle[i]=2*Math.PI+chordAngle[i];
 		}
-		$cl(`chordAngle ${i}`, chordAngle[i]*180/Math.PI);
+		//$cl(`chordAngle ${i}`, chordAngle[i]*180/Math.PI);
 	}
 	for(let i=0; i<bisectAngle.length; i++){
 		bisectAngle[i]=chordAngle[i]+Math.PI/2;
 		if(bisectAngle[i]>Math.PI*2){
 			bisectAngle[i]-=Math.PI*2;
 		}
-		$cl(`bisectAngle ${i}`, bisectAngle[i]*180/Math.PI);
+		//$cl(`bisectAngle ${i}`, bisectAngle[i]*180/Math.PI);
 	}
 	for(let i=0; i<radiusSegment.length; i++){
 		radiusSegment[i]=Math.sqrt(Math.pow(chord[i], 2)-Math.pow(chord[i]/2, 2));
-		$cl(`radiusSegment ${i}`, radiusSegment[i] );
+		//$cl(`radiusSegment ${i}`, radiusSegment[i] );
 	}
 	for(let i=0; i<rotCenter.length; i++){
 		rotCenter[i]=new Point(middlePoint[i].x-radiusSegment[i]*Math.cos(bisectAngle[i]),
 							   middlePoint[i].y-radiusSegment[i]*Math.sin(bisectAngle[i]));
-		$cl(`rotCenter ${i}`, rotCenter[i]);
+		//$cl(`rotCenter ${i}`, rotCenter[i]);
 	}
 	for(let i=0; i<originAngle.length;i++){
 		originAngle[i]=Math.atan((origin[i].y-rotCenter[i].y)/(origin[i].x-rotCenter[i].x));
-		$cl(`originAngle ${i}`, originAngle[i]*180/Math.PI);
+		//$cl(`originAngle ${i}`, originAngle[i]*180/Math.PI);
 	}
 	for(let i=0; i<endingAngle.length;i++){
 		endingAngle[i]=Math.atan((ending[i].y-rotCenter[i].y)/(ending[i].x-rotCenter[i].x));
 		if(endingAngle[i]<0){
 			endingAngle[i]=-endingAngle[i];
 		}
-		$cl('endingAngle', endingAngle[i]*180/Math.PI);
+		//$cl('endingAngle', endingAngle[i]*180/Math.PI);
 	}
 	for(let i=0; i<angleStep.length; i++){
 		angleStep[i]=(endingAngle[i]-originAngle[i])/steps[i];
-		$cl('angleStep', angleStep[i]*180/Math.PI);
+		//$cl('angleStep', angleStep[i]*180/Math.PI);
 	}
 	let notes=[4, 5, 6];
 	function moveNote0(){
 		let round=0;
 		if(!running[round]){
-			running[round]=true;
 			return;
 		}
 		angle=originAngle[round]+angleStep[round];
@@ -88,7 +87,6 @@ function rotateLastThreeAndWindThemAll(){
 	function moveNote1(){
 		let round=1;
 		if(!running[round]){
-			running[round]=true;
 			return;
 		}
 		angle=originAngle[round]+angleStep[round];
@@ -107,8 +105,6 @@ function rotateLastThreeAndWindThemAll(){
 	function moveNote2(){
 		let round=2;
 		if(!running[round]){
-			window.cancelAnimationFrame(raf);
-			running[round]=true;
 			windNotes();
 			return;
 		}
@@ -134,13 +130,12 @@ function windNotes(){
 		window.clearTimeout(timer);
 	}
 	let angle, totalStepCount, points=new Array(7), step=0, phase=0,
-		stepsPerPhase=100, numPhases=3, running=true;
+		stepsPerPhase=50, numPhases=3, running=true;
 	linearAdvance=lineSegment/stepsPerPhase;
 	angularAdvance=circle7th/stepsPerPhase;
 	function moveNotes(){
 		if(!running){
-			window.cancelAnimationFrame(raf);
-			//keepOn(makeDiatonic, 1000);
+			keepOn(makeDiatonic, 1000);
 			return;
 		}
 		totalStepCount=step+(phase*stepsPerPhase);
@@ -170,11 +165,12 @@ function windNotes(){
 				points[2]=new Point(circle.x+circle.radius*Math.cos(angle), circle.y+circle.radius*Math.sin(angle));
 				break;
 			default:
+				break;
 		}
 		for(let i=0; i<points.length; i++){//
 			naturalNotes[i].move(points[i]);
 		}
-		showCount(totalStepCount);
+		//showCount(totalStepCount);
 		if(step++>=stepsPerPhase){
 			step=0;
 			if(++phase>=numPhases){
@@ -549,7 +545,7 @@ showDiatonicSectors.showSemiTones=function(){
 	animate.callback=show;
 	animate();
 }
-/* function drawLine(){
+function drawLine(){
 	console.log('? '+guide.x+' '+guide.y+' '+guide.length);
 	ctx.beginPath();
 	ctx.moveTo(guide.x, guide.y);
@@ -561,7 +557,7 @@ function drawCircle(){
 	ctx.beginPath();
 	ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI*2, true);
 	ctx.stroke();
-} */
+}
 function showOrHideCenteringMark(){
 	if(showOrHideCenteringMark.isVisible){
 		ctx.clearRect(0,0, canvas.width, canvas.height);

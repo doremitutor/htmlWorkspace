@@ -97,9 +97,9 @@ function setUp(){
 	document.getElementById('a9-showDiatonic').addEventListener('click', showDiatonic);
 	document.getElementById('aa-showOrHideCenteringMark').addEventListener('click', showOrHideCenteringMark);
 	document.getElementById('b1-pause-clear').addEventListener('click', stopOrClear);
-	/* document.getElementById('ae-drawCircle').addEventListener('click', drawCircle);
+	document.getElementById('ae-drawCircle').addEventListener('click', drawCircle);
 	document.getElementById('ad-line').addEventListener('click', drawLine);
- */
+
 	/* comments block 1:
 	pointsSharpSeries[0]=pointsChromatic[1];
 	pointsSharpSeries[1]=pointsChromatic[3];
