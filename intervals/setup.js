@@ -20,7 +20,7 @@ for(var i=0; i<y.length; i++){
 var diatPoint=[0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24, 25];
 window.onload=setUp;
 function setUp(){
-	setCtx();
+	setUpCommonalities('Intervals');
 	// listeners
 	document.getElementById('a0').addEventListener('click', f0);
 	document.getElementById('a1').addEventListener('click', f1);
