@@ -1,8 +1,17 @@
+const FUNCTION=(function(){
+	const instance={};
+	//instance.showNotesInLine=showNotesInLine;
+	/* instance.rotateLastThreeAndWindThemAll=rotateLastThreeAndWindThemAll;
+	instance.windNotes=windNotes;
+	instance.moveNotes=moveNotes;
+	instance.makeThemDiatonic=makeThemDiatonic;
+	instance.showIntermediate=showIntermediate; */
+	/* instance.=;
+	instance.=;
+	instance.=; */
+	return instance;
+})();
 function showNotesInLine(){
-	if(timer||raf){		
-		return;
-	}
-	stopOrClear();
 	let point;
 	for(let i=0; i<naturalNotes.length; i++){
 	point=pointsInLine[i];
@@ -126,16 +135,17 @@ function rotateLastThreeAndWindThemAll(){
 	window.setTimeout(moveNote0, 1500);
 }
 function windNotes(){
-	if(timer){
+	/* if(timer){
 		window.clearTimeout(timer);
-	}
+	} */
 	let angle, totalStepCount, points=new Array(7), step=0, phase=0,
 		stepsPerPhase=50, numPhases=3, running=true;
 	linearAdvance=lineSegment/stepsPerPhase;
 	angularAdvance=circle7th/stepsPerPhase;
 	function moveNotes(){
 		if(!running){
-			keepOn(makeDiatonic, 1000);
+			//$cl(running, ' - ', timer )
+			//keepOn(makeThemDiatonic, 1000);
 			return;
 		}
 		totalStepCount=step+(phase*stepsPerPhase);
@@ -177,14 +187,24 @@ function windNotes(){
 			running=false;
 			}
 		}
+		if(typeof moveNotes.frameRate!='number'||moveNotes.frameRate<1){
+			animate(moveNotes);
+		}
+		//$cl(moveNotes.raf, moveNotes.timer);
+		if(moveNotes.raf>=100){
+			//cancelRAF(moveNotes);
+		}		
 	}
-	animate.callback=moveNotes;
-	animate();
+	//$cl('timer ', timer);
+	moveNotes.frameRate=false;
+	moveNotes.callback=moveNotes;
+	animate(moveNotes);
 }
 function makeThemDiatonic(){
-	if(timer){
+	/* if(timer){
+		//alert(timer);
 		window.clearTimeout(timer);
-	}
+	} */
 	let running=true, angularAdvance=new Array(7), step=0, diatonizingSteps=200, angle= new Array(7);
 	angularAdvance[1]=(anglesBy12ths[2]-anglesBy7ths[1])/diatonizingSteps;
 	angularAdvance[2]=(anglesBy12ths[4]-anglesBy7ths[2])/diatonizingSteps;
@@ -192,7 +212,7 @@ function makeThemDiatonic(){
 	angularAdvance[4]=(anglesBy12ths[7]-anglesBy7ths[4])/diatonizingSteps;
 	angularAdvance[5]=(anglesBy12ths[9]-anglesBy7ths[5])/diatonizingSteps;
 	angularAdvance[6]=(anglesBy12ths[11]-anglesBy7ths[6])/diatonizingSteps;
-	let rotate=function(){
+	function rotate(){
 		if(!running){
 			window.cancelAnimationFrame(raf);
 			//keepOn(showAlteredNotes, 1000);			
@@ -204,68 +224,80 @@ function makeThemDiatonic(){
 			naturalNotes[i].move(new Point(circle.x+circle.radius*Math.cos(angle[i]),
 								 circle.y+circle.radius*Math.sin(angle[i])));
 		}
-		if(++step>=diatonizingSteps){running=false;}
-		//if(!running){$cl(running);}
+		if(++step>=diatonizingSteps){
+			running=false;
+			cancelRAF(rotate);
+		}
 		showCount(step);
+		if(running&&(typeof rotate.frameRate!='number'||rotate.frameRate<1)){
+			animate(rotate);
+		}			
 	};
-	animate.callback=rotate;
-	animate();
+	rotate.frameRate=0;
+	rotate.callback=rotate;
+	animate(rotate);
 }
 function showIntermediate(){
-	if(timer){
+	/* if(timer){
 		window.clearTimeout(timer);
-	}
-	let running=true, raisingOpacity=0, maxOpacity=100;
-	let show=function(){
+	} */
+	let running=true, opacity=0, maxOpacity=100;
+	function show(){
 		if(!running){
-			stopOrClear();
+			//stopOrClear();
 			//keepOn(showAlteredNames, 1000);
 			return;
 		}
-		//showCount(raisingOpacity);
-		ctx.globalAlpha=raisingOpacity/100;
+		ctx.globalAlpha=opacity/100;
 		for(let i=0; i<alteredNotes.length; i++){
 			alteredNotes[i].showUp(pointsAltered[i], false);
 		}
-		if((raisingOpacity++)>=maxOpacity){
+		if(opacity++>maxOpacity){
 			running=false;
+			cancelRAF(show);
+			return;
 		}
+		showCount(ctx.globalAlpha);//opacity
+		if((typeof show.frameRate!='number'||show.frameRate<1)&&running==true){
+			animate(show);
+		}
+		
 	};
-	animate.callback=show;
-	animate();
+	show.frameRate=0;
+	show.callback=show;
+	animate(show);
 }
 function showAlteredNames(){
-	if(timer){
-		window.clearTimeout(timer);
-	}
-	let running=true, globalAlpha=0, maxGlobalAlpha=1.0;
+	let running=true, opacity=0, finalOpacity=1.0;
 	for(let i=0; i<alteredNotes.length; i++){
 		alteredNotes[i].locate(pointsAltered[i]);
 	}
-	let	show=function(){
+	function show(){
 		if(!running){
-			stopOrClear();
+			//stopOrClear();
 			ctx.globalAlpha=1.0;
-			keepOn(showDiatonic, 1000);
+			//keepOn(showDiatonic, 1000);
 			return;
 		}
-		ctx.globalAlpha=globalAlpha;
+		ctx.globalAlpha=opacity;
 		for(let i=0; i<alteredNotes.length; i++){
 			alteredNotes[i].clear();
 			ctx.globalAlpha=1.0;
 			alteredNotes[i].createShape();
 			alteredNotes[i].paintBackground();
 			alteredNotes[i].paintBorder();
-			ctx.globalAlpha=globalAlpha;
+			ctx.globalAlpha=opacity;
 			alteredNotes[i].paintNames();
 		}
-		showCount(Math.floor(globalAlpha*100)+1);
-		if((ctx.globalAlpha=globalAlpha+=0.01)>maxGlobalAlpha){
+		showCount(Math.floor(opacity*100)+1);
+		if((ctx.globalAlpha=opacity+=0.01)>finalOpacity){
 			running=false;
 		}
+		animate(show);
 	}
-	animate.callback=show;
-	animate();
+	show.frameRate=0;
+	show.callback=show;
+	animate(show);
 }
 function showDiatonic(){
 	if(timer){
@@ -303,11 +335,8 @@ function showDiatonic(){
 }
 showDiatonic.phase=0;
 function showChromatics(){ //also for Fifths
-	if(timer){
-		window.clearTimeout(timer);
-	}
 		if(showChromatics.phase==0){
-			stopOrClear();
+			//stopOrClear();
 		}			
 		showCount(showChromatics.phase);
 		switch(showChromatics.phase){
@@ -331,7 +360,7 @@ function showChromatics(){ //also for Fifths
 		default:
 			showChromatics.phase=0;
 			//keepOn(showAltered, 1000);
-			showOrHideCenteringMark();
+			//showOrHideCenteringMark();
 			return;
 		}	
 	++showChromatics.phase;
@@ -407,15 +436,12 @@ function showAltered(){
 }
 showAltered.phase=0;
 function showLightningSpot(){
-	stopOrClear();
 	let note=new Note(['foo'], pointsDiatonic[0]);
 	note.createShape();
 	ctx.fillStyle='yellow';
 	ctx.fill();
-	//keepOn(showDiatonicMask, 1000);
 }
 function showDiatonicMask(){
-	stopOrClear();
 	ctx.fillStyle='#3b2c1d';
 	ctx.beginPath();
 	ctx.arc(circle.x, circle.y, 230, 0, 2*Math.PI, true);
@@ -430,7 +456,7 @@ function showDiatonicMask(){
 		ctx.arc(pointsDiatonic[i].x, pointsDiatonic[i].y, maskRadius, 0, 2*Math.PI, true);
 		ctx.fill();
 	}
-	keepOn(showDiatonicSectors.showTones, 1000);
+	//keepOn(showDiatonicSectors.showTones, 1000);
 }
 function showDiatonicSectors(){
 	let x=circle.x, y=circle.y;
@@ -468,7 +494,7 @@ showDiatonicSectors.properties={};
 showDiatonicSectors.running=false;
 showDiatonicSectors.properties;
 showDiatonicSectors.showTones=function(){
-	if(!raf){
+	if(true){
 		stopOrClear();
 		showDiatonicSectors();
 		showDiatonicSectors.running=true;
@@ -546,7 +572,7 @@ showDiatonicSectors.showSemiTones=function(){
 	animate();
 }
 function drawLine(){
-	console.log('? '+guide.x+' '+guide.y+' '+guide.length);
+	//console.log('? '+guide.x+' '+guide.y+' '+guide.length);
 	ctx.beginPath();
 	ctx.moveTo(guide.x, guide.y);
 	ctx.lineTo(guide.x+guide.length, guide.y);
@@ -560,7 +586,7 @@ function drawCircle(){
 }
 function showOrHideCenteringMark(){
 	if(showOrHideCenteringMark.isVisible){
-		ctx.clearRect(0,0, canvas.width, canvas.height);
+		ctx.clearRect(canvas.width/2-50,canvas.height/2-50, 100, 100);
 		showOrHideCenteringMark.isVisible=!showOrHideCenteringMark.isVisible;
 		return;
 	}

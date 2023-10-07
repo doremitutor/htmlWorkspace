@@ -23,7 +23,7 @@ let freq5=5;
 let amplitude5=5;
 window.onload=setUp;
 function setUp(){
-	setUpCommonalities();
+	setUpCommonalities('Harmonics');
 	lengthUnit=canvas.width/32; //1280/32=40
 	textX=Math.floor(lengthUnit);
 	stringX=Math.floor(7*lengthUnit);
@@ -149,7 +149,7 @@ function oscillateString(){
 	let amplitude3;
 	let amplitude4;
 	let amplitude5;
-	function go(){
+	function move(){
 		ctx.clearRect(drawingAreaX, drawingAreaY, drawingAreaWidth, drawingAreaHeight);
 		// 1hz
 		ctx.beginPath();
@@ -260,10 +260,18 @@ function oscillateString(){
 			angleY4+=step4;
 			angleY5+=step5;
 		}
+		if(typeof move.frameRate!='number'||move.frameRate<1){
+			animate(move);
+		}
+		//$cl(move.raf, move.timer);
+		if(move.raf>=100){
+			//cancelRAF(move);
+		}		
 	}
-	animate.callback=go;
-	animate.framesPerSec=10;
-	animate();
+	move.frameRate=30;
+	move.callback=move;
+	animate(move);
+	//setTimeout(cancelRAF, 5000, move)
 }
 function showCompare(){	
 	ctx.lineWidth=4;

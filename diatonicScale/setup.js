@@ -1,6 +1,7 @@
 window.onload=setUp;
 function setUp(){
-	setUpCommonalities();
+	setUpCommonalities('Diatonic scale');
+	createHTML();
 	Note.RADIUS=canvas.height/20;
 	maskRadius=canvas.height/18;
 	fontSizeLarge=canvas.height/22;
@@ -85,65 +86,49 @@ function setUp(){
 		circleOfFifthsNotes[i]=new Note(circleOfFifthsNames[i], pointsChromatic[i]);
 	}
 	// listeners
-	document.getElementById('a0-showNotesInLine').addEventListener('click', showNotesInLine);
-	document.getElementById('a1-rotateLastThreeAndWindAll').addEventListener('click', rotateLastThreeAndWindThemAll);
-	document.getElementById('a2-makeThemDiatonic').addEventListener('click', makeThemDiatonic);
-	document.getElementById('a3-showIntermediate').addEventListener('click', showIntermediate);
-	document.getElementById('a4-showChromatics').addEventListener('click', showChromatics);
-	document.getElementById('a5-showAltered').addEventListener('click', showAltered);
-	document.getElementById('a6-lightningSpot').addEventListener('click', showLightningSpot);
-	document.getElementById('a7-diatMask').addEventListener('click', showDiatonicMask);
-	//document.getElementById('a8-diatSectors').addEventListener('click', showDiatonicSectors.showTones);
-	document.getElementById('a9-showDiatonic').addEventListener('click', showDiatonic);
-	document.getElementById('aa-showOrHideCenteringMark').addEventListener('click', showOrHideCenteringMark);
-	document.getElementById('b1-pause-clear').addEventListener('click', stopOrClear);
-	document.getElementById('ae-drawCircle').addEventListener('click', drawCircle);
-	document.getElementById('ad-line').addEventListener('click', drawLine);
-
-	/* comments block 1:
-	pointsSharpSeries[0]=pointsChromatic[1];
-	pointsSharpSeries[1]=pointsChromatic[3];
-	pointsSharpSeries[2]=pointsChromatic[4];
-	pointsSharpSeries[3]=pointsChromatic[5];
-	pointsSharpSeries[4]=pointsChromatic[6];
-	pointsSharpSeries[5]=pointsChromatic[7];
-	pointsSharpSeries[6]=pointsChromatic[8];
-	pointsSharpSeries[7]=pointsChromatic[9];
-	pointsFlatSeries[0]=pointsChromatic[1];
-	pointsFlatSeries[1]=pointsChromatic[2];
-	pointsFlatSeries[2]=pointsChromatic[3];
-	pointsFlatSeries[3]=pointsChromatic[4];
-	pointsFlatSeries[4]=pointsChromatic[5];
-	pointsFlatSeries[5]=pointsChromatic[6];
-	pointsFlatSeries[6]=pointsChromatic[7];
-	pointsFlatSeries[7]=pointsChromatic[8]; */
-
-	/* //document.getElementById('ab-currentTest').addEventListener('click', );
-	// document.getElementById('ac-sharpNames').addEventListener('click', showSharpNames);
-	// 
-	// 
-	// document.getElementById('af-alert').addEventListener('click', function(){alert('Available!!!');});
-	document.getElementById('b0-resume').addEventListener('click', resume);
-	document.getElementById('b1-pause').addEventListener('click', stopOrClear);
-	// document.getElementById('b2').addEventListener('click', );
-	// document.getElementById('b3').addEventListener('click', );
-	// document.getElementById('b4').addEventListener('click', );
-	// document.getElementById('b5').addEventListener('click', );  */
-	
-	//animate();
-	// showAlteredNotes();
-	// showChromatics();
-	// showDiatonics();
-	// showLightningSpot();
-	// showDiatonicMask();
-	// drawCircle();
-	// showAlterationSeries();
-	// showOrHideCenteringMark();	
+	document.getElementById('showNotesInLine').addEventListener('click', showNotesInLine);
+	document.getElementById('rotateLastThreeAndWindThemAll').addEventListener('click', rotateLastThreeAndWindThemAll);
+	document.getElementById('makeThemDiatonic').addEventListener('click', makeThemDiatonic);
+	document.getElementById('showIntermediate').addEventListener('click', showIntermediate);
+	document.getElementById('showAlteredNames').addEventListener('click', showAlteredNames);
+	document.getElementById('showAlterationSeries').addEventListener('click', showAlterationSeries);
+	document.getElementById('showChromatics').addEventListener('click', showChromatics);
+	document.getElementById('lightningSpot').addEventListener('click', showLightningSpot);
+	document.getElementById('diatonicMask').addEventListener('click', showDiatonicMask);
+	document.getElementById('diatonicSectors').addEventListener('click', showDiatonicSectors.showTones);
+	document.getElementById('showDiatonic').addEventListener('click', showDiatonic);
+	document.getElementById('showOrHideCenteringMark').addEventListener('click', showOrHideCenteringMark);
+	document.getElementById('clear').addEventListener('click', clear);
+	document.getElementById('drawCircle').addEventListener('click', drawCircle);
+	document.getElementById('line').addEventListener('click', drawLine);
 }
-	/* //scratches here!
-	for(let i=0; i<scratchChromaticNotes.length; i++){
-		scratchChromaticNotes[i]=new Note(scratchChromaticNames[i], pointsChromatic[i]);
+function createHTML(){
+	const buttonsDiv=$ce('div');
+	body.append(buttonsDiv);
+	const buttons=[['showNotesInLine', 'Show notes in line'],
+			['rotateLastThreeAndWindThemAll', 'Rotate last three and wind them all'],
+			['makeThemDiatonic', 'Make them diatonic'],
+			['showIntermediate', 'Show intermediate'],
+			['showAlteredNames', 'Show altered names'],
+			['showChromatics', 'Show chromatics'],
+			['showAlterationSeries', 'Show alteration series'],
+			['lightningSpot', 'Lighting Spot'],
+			['diatonicMask', 'Diatonic mask'],
+			['diatonicSectors', 'Diatonic sectors'],
+			['showDiatonic', 'Show diatonic'],
+			['showOrHideCenteringMark', 'Show or hide centering mark'],
+			['clear', 'Clear'],
+			['line', 'Line'],
+			['drawCircle', 'Draw circle']/* ,
+			['sharpNames', 'Sharp names'],
+			['alert', 'Alert'],
+			['resume', 'Resume'] */
+			];
+	const button=[];
+	for(let i=0; i<buttons.length; i++){
+	const button=$ce('button');
+	button.id=buttons[i][0];
+	button.textContent=buttons[i][1];
+	buttonsDiv.append(button);
 	}
-	for(let i=0; i<scratchFifthsNotes.length; i++){
-		scratchFifthsNotes[i]=new Note(scratchFifthsNames[i], pointsChromatic[i]);
-	} */
+}
