@@ -21,6 +21,12 @@ function $str(str_es, str_en){return lang==='es'?str_es:str_en};
 function showAbortAlert(){
 	alert($str('Lo sentimos. Su navegador no puede cargar esta aplicación.', 'We\'re sorry. Your browser can\'t load this application'));
 };
+function getRadFromDeg(angleInDegrees){
+	return angleInDegrees*Math.PI/180;
+}
+function getDegFromRad(angleInRadians){
+	return angleInRadians*180/Math.PI;
+};
 function setUpCommonalities(title){
 	html=$('html');
 	lang=html.getAttribute('lang')
@@ -31,12 +37,13 @@ function setUpCommonalities(title){
 	body.append(titleHeader);
 	canvas=$ce('canvas');
 	canvas.id="canvas";
-	canvas.width="980";
-	canvas.height="552";
+	canvas.width=980;
+	canvas.height=552;
 	body.append(canvas);
 	ctx=canvas.getContext("2d");
 	ctx.lineWidth=2;
 	ctx.lineCap='round';
+	ctx.lineJoin='round';
 	ctx.strokeStyle=ctx.fillStyle='black';
 };
 function getAC(){
@@ -60,7 +67,8 @@ function animate(animation){
 function cancelRAF(animation){
 	cancelAnimationFrame(animation.raf);
 	clearTimeout(animation.timer);
-}function resume(){
+};
+function resume(){
 	$cl(raf, animate.callback);
 	if(raf!=undefined||animate.callback==undefined){
 		alert('Nothing running!');
