@@ -1,7 +1,7 @@
-const canvasPaddingLeft=100;
-const canvasPaddingRight=50;
-const angleRadStarting=345*Math.PI/180;
-const angleRadEnding=15*Math.PI/180;
+const canvasPaddingLeft=50;
+const canvasPaddingRight=100;
+const angleRadStarting=165*Math.PI/180;
+const angleRadEnding=195*Math.PI/180;
 const waves=new Array(97);
 const anglesDeg=[15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345, 0];
 const anglesRad=[];
@@ -18,7 +18,7 @@ const sinusoidPeak=50;
 let wavesCenter, wavesSeparation,
     angleRadLeadWave, angleRadLeftmostWave, angleRadStep,
     sinusoidY, sinusoidFullWidth, sinusoidLeftmostX, sinusoidRightmostX,
-    sinusoidTempWidth, sinusoidLeftmostY, sinusoidTempX, sinusoidTempY;
+    sinusoidTempWidth, sinusoidRightmostY, sinusoidTempX, sinusoidTempY;
 function Wave(opacity, radius, width){
     this.opacity=opacity;  
     this.defaultRadius=radius;
@@ -61,13 +61,13 @@ Wave.prototype.draw=function(oscillatingRadius, fill=false){
         ctx.fillStyle='rgb(150, 150, 150)';
         ctx.fill();
         ctx.stroke();
-        ctx.clearRect(0, wavesCenter.y-60, 65, 120);
+        ctx.clearRect(canvas.width-65, wavesCenter.y-60, 65, 120);
         ctx.fillStyle='rgb(120, 120, 120)';
-        ctx.fillRect(canvasPaddingRight+1, wavesCenter.y-74, 19, 148);
-        ctx.strokeRect(canvasPaddingRight, wavesCenter.y-75, 20, 150);
+        ctx.fillRect(canvas.width-canvasPaddingRight+20, wavesCenter.y-74, 20, 148);
+        ctx.strokeRect(canvas.width-canvasPaddingRight+20, wavesCenter.y-75, 20, 150);
         ctx.fillStyle='rgb(100, 100, 100)';
-        ctx.fillRect(canvasPaddingRight-20, wavesCenter.y-40, 19, 80);
-        ctx.strokeRect(canvasPaddingRight-20, wavesCenter.y-40, 19, 80);
+        ctx.fillRect(canvas.width-canvasPaddingRight+40, wavesCenter.y-40, 19, 80);
+        ctx.strokeRect(canvas.width-canvasPaddingRight+40, wavesCenter.y-40, 19, 80);
         ctx.restore();
         return;
     }

@@ -2,7 +2,7 @@ onload=setUp;
 function setUp(){
 	setUpCommonalities('Sound Waves');
     sinusoidY=canvas.height/2;
-    wavesCenter={'x':canvas.width+canvasPaddingRight, 'y':sinusoidY};
+    wavesCenter={'x':-canvasPaddingLeft, 'y':sinusoidY};
     sinusoidFullWidth=canvas.width-canvasPaddingLeft-canvasPaddingRight;
     wavesSeparation=(sinusoidFullWidth)/(waves.length-1);
     angleRadStep=8*Math.PI/sinusoidFullWidth;
@@ -13,7 +13,7 @@ function setUp(){
 function createWaves(){
     ctx.save();
     for(let i=0; i<waves.length; i++){
-        waves[i]=new Wave(1-i*1/waves.length, canvasPaddingRight*2+i*wavesSeparation, 3);
+        waves[i]=new Wave(1-i*1/waves.length, canvasPaddingLeft*2+i*wavesSeparation, 3);
         if(i==0){
             waves[i].draw(undefined, true);
         }else{
@@ -56,26 +56,26 @@ function sound(){
         }
         ctx.restore();
         ctx.save();
-        ctx.lineWidth=2;
-        ctx.strokeStyle='blue'; 
-        sinusoidRightmostX=canvas.width-waves[0].getDefaultRadius()+canvasPaddingRight;
+        /* ctx.lineWidth=1;
+        ctx.strokeStyle='green'; */  
+        sinusoidLeftmostX=waves[1].getDefaultRadius()-canvasPaddingLeft;
         angleRadLeadWave=anglesSinusoid[animationStep];
-        for(let i=waves.length-1; i>=0; i--){
+        for(let i=waves.length-1; i>=1; i--){
             if(waves[i].getOscillatingRadius()){
-                sinusoidLeftmostX=canvas.width-waves[i].getDefaultRadius()+canvasPaddingRight;
-                break;            
+                sinusoidRightmostX=waves[i].getDefaultRadius()-canvasPaddingLeft;
+                break;               
             }
         }
         sinusoidTempWidth=sinusoidRightmostX?Math.floor(sinusoidRightmostX-sinusoidLeftmostX):0;
         ctx.beginPath();       
-        for (let i=sinusoidTempWidth; i>0; i--){
-            if(i==sinusoidTempWidth){
-                sinusoidRightmostY=sinusoidY-sinusoidPeak*Math.sin(angleRadLeadWave);
-                ctx.moveTo(sinusoidRightmostX, sinusoidRightmostY);
+        for (let i=1; i<sinusoidTempWidth; i++){
+            if(i==1){
+                sinusoidLeftmostY=sinusoidY-sinusoidPeak*Math.sin(angleRadLeadWave);
+                ctx.moveTo(sinusoidLeftmostX, sinusoidLeftmostY);
                 angleRadLeadWave=angleRadLeadWave-angleRadStep;
             }else{
-                sinusoidTempX=sinusoidRightmostX-(sinusoidTempWidth-i);
-                sinusoidTempY=sinusoidY-sinusoidPeak*Math.sin(angleRadLeadWave-(sinusoidTempWidth-i)*angleRadStep);
+                sinusoidTempX=sinusoidLeftmostX+i;
+                sinusoidTempY=sinusoidY-sinusoidPeak*Math.sin(angleRadLeadWave-i*angleRadStep);
                 ctx.lineTo(sinusoidTempX, sinusoidTempY);
             }
         }
@@ -87,18 +87,11 @@ function sound(){
         if(typeof go.frameRate!='number'||go.frameRate<0.1){
 			animate(go);
 		}
-		if(go.raf%96==0){
-            now=Date.now();
-            $cl(now-before);
-            before=now;
-		}
-        const loops=10;
-        if(go.raf>=1+(96*loops)){
-            cancelRAF(go);
-        }		
+		if(go.raf>=97){
+		    cancelRAF(go);
+		}		
     }
-    go.frameRate=31;
+    go.frameRate=12;
     go.callback=go;
     animate(go);
-    let before=Date.now(), now;
 }
