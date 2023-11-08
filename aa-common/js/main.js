@@ -23,7 +23,7 @@ function showAbortAlert(){
 };
 function getRadFromDeg(angleInDegrees){
 	return angleInDegrees*Math.PI/180;
-}
+};
 function getDegFromRad(angleInRadians){
 	return angleInRadians*180/Math.PI;
 };
@@ -75,16 +75,16 @@ function resume(){
 		return;
 	}
 	raf(animate);
-}
+};
 function clear(){
 	if(true){
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 	}
-}
+};
 function keepOn(callBack, delay){
 	if(delay==undefined){throw new Error("You forgot to set the delay");} 
 	timer=window.setTimeout(callBack, delay);
-}
+};
 function showCount(count){			
 	ctx.clearRect(100, 300, 200, 200);
 	ctx.save();
@@ -94,32 +94,62 @@ function showCount(count){
 	ctx.fillText(count, 200, 400);
 	ctx.strokeRect(100, 300, 200, 200);
 	ctx.restore()
-}
-function drawVertMark(x, centerY, height, lineWidth){
+};
+function drawVertMark(x, centerY, height, lineWidth, color){
+	ctx.save();
 	ctx.beginPath();
 	ctx.lineWidth=lineWidth;
 	let offset=height/2
 	ctx.moveTo(x, centerY-offset);
 	ctx.lineTo(x, centerY+offset);
+	ctx.strokeStyle=color;
 	ctx.stroke();
-}
-function drawSinusoid(x, y, width, peakValue, harmonic, centerLine){
+	ctx.restore();
+};
+function drawHorizMark(centerX, y, width, lineWidth, color){
+	ctx.save();
+	ctx.beginPath();
+	ctx.lineWidth=lineWidth;
+	let offset=width/2
+	ctx.moveTo(centerX-offset, y);
+	ctx.lineTo(centerX+offset, y);
+	ctx.strokeStyle=color;
+	ctx.stroke();
+	ctx.restore();
+
+};
+function drawSinusoid(x, y, width, curveLineWidth, peakValue, harmonic, centerLineWidth, nodesLineWidth=2, nodesHeight=20, nodesColor='red'){
 	let nextX;
 	let nextY;
-	let advance;
+	ctx.save();
 	ctx.beginPath();
-	if(centerLine){
+	if(typeof centerLineWidth=='number'&&centerLineWidth>0){
+		ctx.lineWidth=centerLineWidth;
 		ctx.moveTo(x, y);
 		ctx.lineTo(x+width, y);
+		ctx.stroke();
 	}
+	ctx.beginPath();
 	ctx.moveTo(x, y);
+	ctx.lineWidth=curveLineWidth;
 	for(let i=0; i<=width; i++){		
 		nextX=x+i;
 		nextY=y-(peakValue*Math.sin(2*harmonic*Math.PI*i/width));
 		ctx.lineTo(nextX, nextY);
 	}
 	ctx.stroke();
- }
+	if(typeof nodesLineWidth=='number'&&nodesLineWidth>0){
+		ctx.strokeStyle=nodesColor;
+		ctx.lineWidth=nodesLineWidth;
+		for(let i=0; i<=harmonic; i++){
+			ctx.beginPath();
+			ctx.moveTo(x+i/harmonic*width, y-nodesHeight/2);
+			ctx.lineTo(x+i/harmonic*width, y+nodesHeight/2);
+			ctx.stroke();
+		}
+	}	
+	ctx.restore();
+ };
  Array.prototype.hasIt=function(str){
 	for(let i=0; i<this.length; i++){
 		if(this[i]==str){
@@ -127,5 +157,4 @@ function drawSinusoid(x, y, width, peakValue, harmonic, centerLine){
 		}
 	}
 	return false;	
- }
-
+ };

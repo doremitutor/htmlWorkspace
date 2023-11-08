@@ -38,9 +38,6 @@ function setUp(){
 	y5=Math.floor(13.6*lengthUnit);
 	y0=Math.floor(16*lengthUnit);
 	textYOffset=lengthUnit*2/7;
-	showAll();
-}
-function showAll(){
 	writeText();
 	showHarmonics();
 	oscillateString();
@@ -120,8 +117,7 @@ function showHarmonics(){
 								)/2);
 	}
 	ctx.stroke();
-};
-	
+};	
 function oscillateString(){
 	let maxY1=30;
 	let maxY2=15;
@@ -273,40 +269,18 @@ function oscillateString(){
 	animate(move);
 	//setTimeout(cancelRAF, 5000, move)
 }
-function showCompare(){	
-	ctx.lineWidth=4;
-	ctx.strokeStyle='black';
-	sinWaveX=Math.floor(canvas.width/20);
-	sinWaveW=Math.floor(9*canvas.width/10);
+function showCompare(){
+	const x=Math.floor(canvas.width/20);
+	const width=Math.floor(9*canvas.width/10);
+	const curveLineWidth=4;
+	const centerLineWidth=2;
+	const nodesHeight=20;
+	const nodesLineWidth=6;
+	const nodesColor='green';
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	ctx.beginPath();
-	ctx.moveTo(sinWaveX, y1);
-	let freq=4;
-	for(let x=1; x<=sinWaveW; x++){
-		ctx.lineTo(sinWaveX+x, y1-amplitude1*(Math.sin(2*Math.PI*freq*x/sinWaveW)));
-	}
-	ctx.stroke();
-	let tempStyle=ctx.strokeStyle;
-	ctx.strokeStyle='red';
-	for(let i=0; i<=freq; i++){
-		ctx.beginPath();
-		ctx.moveTo(sinWaveX+i/freq*sinWaveW, y1-20);
-		ctx.lineTo(sinWaveX+i/freq*sinWaveW, y1+20);
-		ctx.stroke();
-	}
-	ctx.strokeStyle=tempStyle;
-	ctx.beginPath();
-	ctx.moveTo(sinWaveX, y3);
-	freq=5;
-	for(let x=1; x<=sinWaveW; x++){
-		ctx.lineTo(sinWaveX+x, y3-amplitude1*(Math.sin(2*Math.PI*freq*x/sinWaveW)));
-	}
-	ctx.stroke();
-	ctx.strokeStyle='red';
-	for(let i=0; i<=freq; i++){
-		ctx.beginPath();
-		ctx.moveTo(sinWaveX+i/freq*sinWaveW, y3-20);
-		ctx.lineTo(sinWaveX+i/freq*sinWaveW, y3+20);
-		ctx.stroke();
-	}
+	drawSinusoid(x, y1, width, curveLineWidth, amplitude1, 1, centerLineWidth, nodesLineWidth, nodesHeight, nodesColor);
+	drawSinusoid(x, y2, width, curveLineWidth, amplitude2, 2, centerLineWidth, nodesLineWidth, nodesHeight, nodesColor);
+	drawSinusoid(x, y3, width, curveLineWidth, amplitude3, 3, centerLineWidth, nodesLineWidth, nodesHeight, nodesColor);
+	drawSinusoid(x, y4, width, curveLineWidth, amplitude4, 4, centerLineWidth, nodesLineWidth, nodesHeight, nodesColor);
+	drawSinusoid(x, y5, width, curveLineWidth, amplitude5, 5, centerLineWidth, nodesLineWidth, nodesHeight, nodesColor);
 }
