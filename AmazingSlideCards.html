@@ -1,0 +1,57 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Ejercicios Disponibles</title>
+	<meta name="viewport" content="width=device-width, user-scalable=yes, maximum-scale=1">
+	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+	<style>
+	:root {--gutter: 20px;}
+	html{
+		background-color:#077;
+		overflow:auto;
+		height:100%;
+	}
+	body {
+	  width:300px;
+	  margin: 10px auto;
+	  text-align:center;
+	  background: #456;
+	}
+	.hs {
+	  list-style: none;
+	  display: grid;
+	  grid-gap: calc(var(--gutter) / 2);
+	  grid-template-columns: repeat(6, calc(80% - var(--gutter) * 2));
+	  grid-template-rows: 150px;
+	  padding: 20px;  
+	  overflow-x: scroll;
+	  scroll-snap-type: x proximity;
+	  padding-bottom: calc(.75 * var(--gutter));
+	  margin-bottom: calc(-.25 * var(--gutter));
+	  background-color:#b97;
+	}
+	.hs > li, .item {
+	  scroll-snap-align: center;
+	  display: flex;
+	  flex-direction: column;
+	  justify-content: center;
+	  align-items: center;
+	  background: #f9f;
+	  border-radius: 8px;
+	  z-index:1;
+	}
+	.hs > li:last-child {
+	  width: 10px;
+	  padding:0px;
+	  visibility:hidden;
+	}
+	</style>
+</head>
+<body><ul class="hs">
+    <li class="item">test</li>
+    <li class="item">test</li>
+    <li class="item">test</li>
+    <li class="item">test</li>
+    <li class="item">test</li>
+    <li class="item"></li>
+  </ul></body></html>

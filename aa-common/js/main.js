@@ -46,6 +46,27 @@ function setUpCommonalities(title){
 	ctx.lineJoin='round';
 	ctx.strokeStyle=ctx.fillStyle='black';
 };
+function ButtonSpec(id, className, content, listener){
+	this.prop={};
+    this.prop.id=id;
+    this.prop.className=className;
+    this.prop.textContent=content;
+    this.listener=listener;
+};
+function createButtonsDiv(buttonsSpecsArray){
+    const canvas=$('canvas');
+    const buttonsDiv=$ce('div');
+    buttonsDiv.id='buttonsDiv';
+    canvas.after(buttonsDiv);
+    buttonsSpecsArray.forEach(spec=>{
+        const button=$ce('button');
+        for(const prop in spec.prop){
+            button[prop]=spec.prop[prop];
+            buttonsDiv.append(button);
+        }
+		button.addEventListener('click', spec.listener, false);
+    });
+};
 function getAC(){
 	if(ac)return ac;
 	if(!AC){
